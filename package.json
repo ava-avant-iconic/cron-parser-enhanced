@@ -4,6 +4,9 @@
   "description": "Enhanced cron expression parser with natural language descriptions, validation, and next run time calculations",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "cron-enhanced": "./dist/cli.js"
+  },
   "scripts": {
     "build": "tsc",
     "test": "node --test",
@@ -30,5 +33,8 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "commander": "^14.0.3"
   }
 }

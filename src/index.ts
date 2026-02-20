@@ -390,6 +390,35 @@ function isFutureTooFar(date: Date): boolean {
  * Get a simple description of a cron expression
  */
 export function describeCron(expression: string, options: ParseOptions = {}): string {
+  // Handle special expressions first
+  const specialDesc = handleSpecialExpressions(expression);
+  if (specialDesc) {
+    return specialDesc;
+  }
+
   const parsed = parseCron(expression, options);
   return parsed.description;
+}
+
+/**
+ * Handle special cron expressions (@yearly, @monthly, etc.)
+ */
+function handleSpecialExpressions(expression: string): string | null {
+  const special = {
+    '@yearly': 'Every year at midnight on January 1st',
+    '@annually': 'Every year at midnight on January 1st',
+    '@monthly': 'Every month on the 1st at midnight',
+    '@weekly': 'Every Sunday at midnight',
+    '@daily': 'Every day at midnight',
+    '@midnight': 'Every day at midnight',
+    '@hourly': 'Every hour on the hour',
+    '@reboot': 'Run once at system startup'
+  };
+
+  const lowerExpr = expression.toLowerCase().trim();
+  if (special[lowerExpr as keyof typeof special]) {
+    return special[lowerExpr as keyof typeof special];
+  }
+
+  return null;
 }
